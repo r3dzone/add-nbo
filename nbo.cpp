@@ -1,9 +1,13 @@
 #include <cstdio>
 #include <stdint.h>
+#include <netinet/in.h>
+
+void add_nbo(uint32_t a, uint32_t b){
+	uint32_t result = a + b;
+	printf("%d(0x%x) + %d(0x%x) = %d(0x%x)",a,a,b,b,result,result);
+}
 
 int main(int argc, char *argv[]){
-	char* first_fname = argv[1];
-	char* second_fname = argv[2];
 
 	FILE* first_file = fopen(argv[1],"rb");
 	FILE* second_file = fopen(argv[2],"rb");
@@ -15,7 +19,10 @@ int main(int argc, char *argv[]){
 	fclose(first_file);
 	fclose(second_file);
 	
-	printf("%x,%x",first,second);
+	uint32_t hfirst = ntohl(first);
+	uint32_t hsecond = ntohl(second);
+	
+	add_nbo(hfirst,hsecond);
 	
 	return 0;
 }
